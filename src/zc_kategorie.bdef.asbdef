@@ -1,0 +1,21 @@
+projection;
+
+define behavior for ZC_Kategorie alias Abfallkategorie
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _Container { create; }
+}
+
+define behavior for ZC_Container alias Container
+{
+  use update;
+  use delete;
+
+  use association _Abfallkategorie;
+
+  use action verfuegbar;
+  use action nichtverfuegbar;
+}

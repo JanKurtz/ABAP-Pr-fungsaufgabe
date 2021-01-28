@@ -1,0 +1,22 @@
+projection;
+
+define behavior for ZC_Kunden alias Kunden
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _Bestellung { create; }
+}
+
+define behavior for ZC_Bestellung alias Bestellung
+{
+  use update;
+  use delete;
+
+  use association _Kunden;
+
+  use action ausgeliefert;
+  use action abgeschlossen;
+  use action abgebrochen;
+}

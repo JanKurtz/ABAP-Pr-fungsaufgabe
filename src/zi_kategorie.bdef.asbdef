@@ -1,0 +1,91 @@
+managed;
+
+define behavior for ZI_Kategorie alias Abfallkategorie
+implementation in class zbp_i_kategorie unique
+persistent table zkategorie_table
+lock master
+
+{
+  create;
+  update;
+  delete;
+  association _Container { create; }
+
+  //Selbstgenerierte UUID
+  field ( readonly, numbering : managed ) AbfallkategorieUUID;
+  //schreibgeschützte Felder
+  field ( readonly ) AbfallkategorieID;
+  //Pflichtfelder bei create
+  field ( mandatory ) name, preis, waehrung;
+
+  // determination für automatische ID-Generierung
+  determination calculateAbfallkategorieID on save { create; }
+
+
+  mapping for zkategorie_table
+  {
+
+    AbfallkategorieUUID = kategorieuuid;
+    AbfallkategorieID = kategorieid;
+    name = name;
+    preis = preis;
+    waehrung = waehrung;
+  }
+}
+
+
+define behavior for ZI_Container alias Container
+implementation in class zbp_i_container unique
+persistent table zcontainer_table
+lock dependent by _Abfallkategorie
+
+{
+  update;
+  delete;
+
+  association _Abfallkategorie;
+
+  //Selbstgenerierte UUID
+  field ( readonly, numbering : managed ) ContainerUUID;
+  //schreibgeschützte Felder
+  field ( readonly ) ContainerID, Abfallkategorie;
+  //Pflichtfelder bei create
+  field ( mandatory ) BestellID, verfuegbarkeit, gewicht;
+
+
+  //Actions für Verfügbarkeits-buttons
+  action ( features : instance ) verfuegbar result [1] $self;
+  action ( features : instance ) nichtverfuegbar result [1] $self;
+
+  // determination für automatische ID-Generierung
+  determination CalculateContainerNr on modify
+  { create; }
+
+  //determination zum Verfügbarkeit setzen
+  determination setVerfuegbarkeit on modify
+  { create; }
+
+  //Existiert Bestellung?
+  validation validateBestellung on save { field bestellid; create; }
+
+  determine action Prepare
+  {
+    validation validateBestellung;
+  }
+
+
+  mapping for zcontainer_table
+  {
+
+    ContainerUUID = containeruuid;
+    BestellUUID = b_id;
+    AbfallkategorieUUID = ak_id;
+    ContainerID = containerid;
+    verfuegbarkeit = verfuegbarkeit;
+    gewicht = gewicht;
+    abholdatum = abholdatum;
+  }
+
+
+
+}

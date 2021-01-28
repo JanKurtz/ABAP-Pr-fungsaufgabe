@@ -1,0 +1,7 @@
+@EndUserText.label: 'Service definition für Kunden'
+define service ZUI_C_Kunden {
+  expose ZC_Kunden as Kunden;
+  expose ZC_Bestellung as Bestellung;
+  expose ZC_Kategorie as Abfallkategorie;
+  expose ZC_Container as Container;
+}

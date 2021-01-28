@@ -1,0 +1,54 @@
+@Metadata.layer: #CORE
+@UI: {
+ headerInfo: { typeName: 'Bestellung', typeNamePlural: 'Bestellungen', title: { type: #STANDARD, value: 'BestellID' } } }
+annotate view ZC_Bestellung with
+{
+  @UI.facet: [ { id:              'Bestellung',
+                   purpose:         #STANDARD,
+                   type:            #IDENTIFICATION_REFERENCE,
+                   label:           'Bestellung',
+                   position:        10 } ]
+
+  @UI:{ identification: [{ position: 1, label: 'Bestell UUID' }] }
+  BestellUUID;
+
+  @UI:{ identification: [{ position: 2, label: 'Kunden UUID' }] }
+  KundenUUID;
+
+  @UI: {
+   lineItem:       [ { position: 10, importance: #MEDIUM } ],
+   identification: [ { position: 10 } ] }
+  @Search.defaultSearchElement: true
+  BestellID;
+
+  @UI: {
+  lineItem:       [ { position: 30, importance: #MEDIUM } ],
+  identification: [ { position: 30 } ] }
+  Bestelldatum;
+
+  @UI: {
+  lineItem:       [ { position: 40, importance: #MEDIUM } ],
+  identification: [ { position: 40 } ] }
+  Abholdatum;
+
+  @UI: {
+      lineItem:       [ { position: 60, importance: #MEDIUM },
+                        { type: #FOR_ACTION, dataAction: 'ausgeliefert', label: 'Ausgeliefert' },
+                        { type: #FOR_ACTION, dataAction: 'abgeschlossen', label: 'Abgeschlossen' },
+                        { type: #FOR_ACTION, dataAction: 'abgebrochen', label: 'Abbrechen' } ],
+      identification: [ { position: 60 },
+                        { type: #FOR_ACTION, dataAction: 'ausgeliefert', label: 'Ausgeliefert' },
+                        { type: #FOR_ACTION, dataAction: 'abgeschlossen', label: 'Abgeschlossen' },
+                        { type: #FOR_ACTION, dataAction: 'abgebrochen', label: 'Abbrechen' } ] }
+
+  Status;
+
+  @UI: {
+      lineItem:       [ { position: 70, importance: #MEDIUM } ],
+      identification: [ { position: 70 } ] }
+  Kommentar;
+
+  @UI.hidden: true
+  Aktualisierung;
+
+}

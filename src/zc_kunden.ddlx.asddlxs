@@ -1,0 +1,67 @@
+@Metadata.layer: #CORE
+@UI: {
+ headerInfo: { typeName: 'Kunde', typeNamePlural: 'Kunden', title: { type: #STANDARD, value: 'KundenID' } } }
+annotate view ZC_Kunden with
+{
+  @UI.facet: [ { id:              'Kunde',
+                   purpose:         #STANDARD,
+                   type:            #IDENTIFICATION_REFERENCE,
+                   label:           'Kunde',
+                   position:        10 } ,
+               { id:              'Bestellung',
+                   purpose:         #STANDARD,
+                   type:            #LINEITEM_REFERENCE,
+                   label:           'Bestellung',
+                   position:        20,
+                   targetElement:   '_Bestellung'} ]
+
+  @UI:{ identification: [{ position: 1, label: 'Kunden UUID' }] }
+  KundenUUID;
+
+  @UI: {
+        lineItem:       [ { position: 10, importance: #HIGH } ],
+        identification: [ { position: 10 } ] }
+  @Search.defaultSearchElement: true
+  KundenID;
+
+  @UI: {
+        lineItem:       [ { position: 30, importance: #MEDIUM } ],
+        identification: [ { position: 30 } ] }
+  Vorname;
+
+  @UI: {
+       lineItem:       [ { position: 40, importance: #MEDIUM } ],
+       identification: [ { position: 40 } ] }
+  Nachname;
+
+  @UI: {
+     lineItem:       [ { position: 50, importance: #MEDIUM } ],
+     identification: [ { position: 50 } ] }
+  Postleitzahl;
+
+  @UI: {
+     lineItem:       [ { position: 60, importance: #MEDIUM } ],
+     identification: [ { position: 60 } ] }
+  Ort;
+
+  @UI: {
+     lineItem:       [ { position: 70, importance: #MEDIUM } ],
+     identification: [ { position: 70 } ] }
+  Strasse;
+
+  @UI: {
+     lineItem:       [ { position: 80, importance: #MEDIUM } ],
+     identification: [ { position: 80 } ] }
+  Hausnummer;
+
+  @UI: {
+     lineItem:       [ { position: 90, importance: #MEDIUM } ],
+     identification: [ { position: 90 } ] }
+  Firma;
+
+  @UI: {
+     lineItem:       [ { position: 100, importance: #MEDIUM } ],
+     identification: [ { position: 100 } ] }
+  Ansprechpartner;
+
+}

@@ -1,0 +1,98 @@
+managed;
+
+define behavior for ZI_Kunden alias Kunden
+implementation in class zbp_i_kunden unique
+persistent table zkunde_table
+lock master
+{
+  create;
+  update;
+  delete;
+  association _Bestellung { create; }
+
+  //Selbstgenerierte UUID
+  field ( readonly, numbering : managed ) KundenUUID;
+  //schreibgeschützte Felder
+  field ( readonly ) KundenID;
+  //Pflichtfelder bei create
+  field ( mandatory ) vorname, nachname, postleitzahl, ort, strasse, hausnummer;
+
+
+  mapping for zkunde_table
+  {
+
+    KundenUUID = kundenuuid;
+    KundenID = kundenid;
+    vorname = vorname;
+    nachname = nachname;
+    postleitzahl = plz;
+    ort = ort;
+    strasse = strasse;
+    hausnummer = hausnummer;
+    firma = firma;
+    ansprechpartner = ansprechpartner;
+  }
+
+  // determination für automatische ID-Generierung
+  determination CalculateKundenNr on save
+  { create; }
+
+
+}
+
+define behavior for ZI_Bestellung alias Bestellung
+implementation in class zbp_i_bestellung unique
+persistent table zbestell_table
+lock dependent by _Kunden
+
+{
+  update;
+  delete;
+
+  association _Kunden;
+
+  //Selbstgenerierte UUID
+  field ( readonly, numbering : managed ) BestellUUID;
+  //schreibgeschützte Felder
+  field ( readonly ) KundenUUID, BestellID;
+  //Pflichtfelder bei create
+  field ( mandatory ) Bestelldatum;
+
+  action ( features : instance ) ausgeliefert result [1] $self;
+  action ( features : instance ) abgeschlossen result [1] $self;
+  action ( features : instance ) abgebrochen result [1] $self;
+
+
+  // determination für automatische ID-Generierung
+  determination CalculateBestellNr on modify
+  { create; }
+  //determination zum Status setzen
+  determination setStatus on modify
+  { create; }
+
+
+  //Datum überprüfen
+  validation validateDates on save { field bestelldatum, abholdatum; create; }
+
+  determine action Prepare
+  {
+    validation validateDates;
+  }
+
+
+
+  mapping for zbestell_table
+  {
+
+    BestellUUID = bestelluuid;
+    KundenUUID = kunid;
+    BestellID = bestellid;
+    Bestelldatum = bestelldatum;
+    Abholdatum = abholdatum;
+    Status = status;
+    Kommentar = kommentar;
+    Aktualisierung = updatedatum;
+  }
+
+
+}

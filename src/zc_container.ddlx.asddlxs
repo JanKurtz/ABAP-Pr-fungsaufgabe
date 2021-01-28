@@ -1,0 +1,54 @@
+@Metadata.layer: #CORE
+@UI: {
+ headerInfo: { typeName: 'Container', typeNamePlural: 'Container', title: { type: #STANDARD, value: 'ContainerID' } } }
+annotate view ZC_Container with
+{
+  @UI.facet: [ { id:              'Container',
+                   purpose:         #STANDARD,
+                   type:            #IDENTIFICATION_REFERENCE,
+                   label:           'Container',
+                   position:        10 } ]
+
+  @UI:{ identification: [{ position: 1, label: 'Container UUID' }] }
+  ContainerUUID;
+
+  @UI:{ identification: [{ position: 2, label: 'Bestell UUID' }] }
+  BestellUUID;
+
+  @UI: {
+      lineItem:       [ { position: 10, importance: #MEDIUM } ],
+      identification: [ { position: 10 } ] }
+  @Search.defaultSearchElement: true
+  ContainerID;
+
+  @UI: {
+     lineItem:       [ { position: 20, importance: #MEDIUM } ],
+     identification: [ { position: 20 } ] }
+  BestellID;
+
+  @UI: {
+     lineItem:       [ { position: 30, label: 'Abfallkategorie', importance: #MEDIUM } ],
+     identification: [ { position: 30, label: 'Abfallkategorie'} ] }
+  Abfallkategorie;
+
+  @UI: {
+      lineItem:       [ { position: 40, importance: #MEDIUM },
+                        { type: #FOR_ACTION, dataAction: 'verfuegbar', label: 'Verfügbar' },
+                        { type: #FOR_ACTION, dataAction: 'nichtverfuegbar', label: 'Nicht verfügbar' } ],
+      identification: [ { position: 40 },
+                        { type: #FOR_ACTION, dataAction: 'verfuegbar', label: 'Verfügbar' },
+                        { type: #FOR_ACTION, dataAction: 'nichtverfuegbar', label: 'Nicht verfügbar' } ] }
+  Verfuegbarkeit;
+
+  @UI: {
+      lineItem:       [ { position: 50, label: 'Gewicht in kg', importance: #MEDIUM } ],
+      identification: [ { position: 50, label: 'Gewicht in kg' } ] }
+      
+  Gewicht;
+  
+  @UI: {
+     lineItem:       [ { position: 60, importance: #MEDIUM } ],
+     identification: [ { position: 60 } ] }
+  Abholdatum;
+
+}
